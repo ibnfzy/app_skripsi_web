@@ -6,16 +6,20 @@ use App\Controllers\BaseController;
 
 class BasePanel extends BaseController
 {
+    private array $menuItems = [
+        ['label' => 'Dashboard', 'url' => '/Sekjur'],
+        ['label' => 'Validasi Pengajuan', 'url' => '#'],
+        ['label' => 'Pendaftaran Seminar', 'url' => '#'],
+        ['label' => 'Penjadwalan Seminar', 'url' => '#'],
+        ['label' => 'Kelola User', 'url' => '/Sekjur/users'],
+    ];
+
     public function index(): string
     {
         $data = [
             'role' => 'Sekjur',
-            'menu' => [
-                'Dashboard',
-                'Validasi Pengajuan',
-                'Pendaftaran Seminar',
-                'Penjadwalan Seminar',
-            ],
+            'menu' => $this->menuItems,
+            'activeMenu' => 'Dashboard',
             'contentMap' => [
                 'Dashboard' => 'Statistik singkat jurusan',
                 'Validasi Pengajuan' => 'List pengecekan dan validasi judul',
@@ -68,5 +72,22 @@ class BasePanel extends BaseController
         ];
 
         return view('panel/sekjur/index', $data);
+    }
+
+    public function users(): string
+    {
+        $data = [
+            'role' => 'Sekjur',
+            'menu' => $this->menuItems,
+            'activeMenu' => 'Kelola User',
+            'roleOptions' => [
+                ['value' => 'mahasiswa', 'label' => 'Mahasiswa'],
+                ['value' => 'dosen', 'label' => 'Dosen Pembimbing'],
+                ['value' => 'kaprodi', 'label' => 'Ketua Program Studi'],
+                ['value' => 'sekjur', 'label' => 'Sekretaris Jurusan'],
+            ],
+        ];
+
+        return view('panel/sekjur/users', $data);
     }
 }
