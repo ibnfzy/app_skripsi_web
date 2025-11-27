@@ -32,9 +32,9 @@
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
                 <a href="#beranda" class="text-[var(--abu-gelap)] hover:text-[var(--biru-medium)] transition">Beranda</a>
                 <a href="#panduan" class="text-[var(--abu-gelap)] hover:text-[var(--biru-medium)] transition">Panduan</a>
-                <a href="#login" class="text-[var(--abu-gelap)] hover:text-[var(--biru-medium)] transition">Login</a>
+                <a href="/login" class="text-[var(--abu-gelap)] hover:text-[var(--biru-medium)] transition">Login</a>
                 <a href="#kontak" class="text-[var(--abu-gelap)] hover:text-[var(--biru-medium)] transition">Kontak</a>
-                <a href="#login" class="px-4 py-2 rounded-full bg-[var(--biru-tua)] text-white shadow hover:bg-[var(--biru-medium)] transition">Masuk</a>
+                <a href="/login" class="px-4 py-2 rounded-full bg-[var(--biru-tua)] text-white shadow hover:bg-[var(--biru-medium)] transition">Masuk</a>
             </nav>
         </div>
     </header>
@@ -109,7 +109,7 @@
                                 <p class="font-semibold">Dr. Vania Nirmala, M.Kom</p>
                             </div>
                         </div>
-                        <button id="login" class="w-full mt-2 py-3 rounded-lg bg-[var(--biru-medium)] text-white font-semibold shadow hover:bg-[var(--biru-tua)] transition">Masuk ke Sistem</button>
+                        <a href="/login" class="block text-center w-full mt-2 py-3 rounded-lg bg-[var(--biru-medium)] text-white font-semibold shadow hover:bg-[var(--biru-tua)] transition">Masuk ke Sistem</a>
                     </div>
                 </div>
             </div>
