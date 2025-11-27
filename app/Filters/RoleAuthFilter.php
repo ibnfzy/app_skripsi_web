@@ -16,8 +16,8 @@ class RoleAuthFilter implements FilterInterface
             return redirect()->to('/login')->with('error', 'Silakan login untuk melanjutkan.');
         }
 
-        $role = $session->get('role');
-        $segment = ucfirst($request->uri->getSegment(1));
+        $role = ucfirst($session->get('role'));
+        $segment = ucfirst($request->getUri()->getSegment(1));
 
         $roleMap = [
             'Sekjur'           => ['Sekjur'],

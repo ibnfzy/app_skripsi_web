@@ -10,7 +10,8 @@ class Auth extends BaseController
     {
         helper(['form', 'url']);
 
-        if ($this->request->getMethod() === 'post') {
+
+        if ($this->request->getMethod() === 'POST') {
             $rules = [
                 'role' => 'required',
                 'username' => 'required',
