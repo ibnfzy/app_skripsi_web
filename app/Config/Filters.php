@@ -9,6 +9,7 @@ use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\ForceHTTPS;
 use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Filters\InvalidChars;
+use App\Filters\RoleAuthFilter;
 use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
@@ -34,6 +35,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'roleauth'      => RoleAuthFilter::class,
     ];
 
     /**
@@ -106,5 +108,18 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'roleauth' => [
+            'before' => [
+                'Sekjur',
+                'Sekjur/*',
+                'Kaprodi',
+                'Kaprodi/*',
+                'DosenPembimbing',
+                'DosenPembimbing/*',
+                'Mahasiswa',
+                'Mahasiswa/*',
+            ],
+        ],
+    ];
 }

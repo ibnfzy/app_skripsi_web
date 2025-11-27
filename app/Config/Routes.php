@@ -6,6 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->match(['get', 'post'], 'login', 'Auth::login');
+$routes->get('logout', 'Auth::logout');
 
 $routes->group('Sekjur', ['namespace' => 'App\\Controllers\\Sekjur'], function ($routes) {
     $routes->get('/', 'BasePanel::index');

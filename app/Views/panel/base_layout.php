@@ -52,8 +52,8 @@
         <?php endforeach; ?>
       </nav>
       <div class="px-6 py-4 border-t border-white/10">
-        <button
-          class="w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold transition">Logout</button>
+        <a href="/logout"
+          class="block text-center w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold transition">Logout</a>
         <p class="text-xs text-white/70 mt-2">Sesi aman, pastikan keluar setelah selesai.</p>
       </div>
     </aside>
