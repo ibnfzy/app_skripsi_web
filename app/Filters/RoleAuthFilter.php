@@ -27,6 +27,7 @@ class RoleAuthFilter implements FilterInterface
         ];
 
         if (isset($roleMap[$segment]) && ! in_array($role, $roleMap[$segment], true)) {
+            $session->destroy();
             return redirect()->to('/login')->with('error', 'Anda tidak memiliki akses ke panel ini.');
         }
 
