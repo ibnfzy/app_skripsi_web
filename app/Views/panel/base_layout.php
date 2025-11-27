@@ -1,10 +1,26 @@
+<?php
+  $roleLabels = [
+    'Mahasiswa' => 'Mahasiswa',
+    'Dosen Pembimbing' => 'Dosen Pembimbing',
+    'Kaprodi' => 'Ketua Program Studi',
+    'Sekjur' => 'Sekretaris Jurusan',
+  ];
+  $roleDisplay = $roleLabels[$role ?? ''] ?? ($role ?? 'Pengguna');
+  $descriptions = [
+    'Mahasiswa' => 'Akses pengajuan judul, bimbingan, seminar, dan revisi dalam satu panel.',
+    'Dosen Pembimbing' => 'Kelola daftar mahasiswa bimbingan, catatan, serta jadwal seminar.',
+    'Kaprodi' => 'Pantau pengajuan judul dan progres bimbingan program studi.',
+    'Sekjur' => 'Validasi pengajuan dan atur penjadwalan seminar jurusan.',
+  ];
+  $modules = $contentMap ?? [];
+?>
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel <?= esc($role ?? 'Pengguna'); ?></title>
+  <title>Panel <?= esc($roleDisplay ?? 'Pengguna'); ?></title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -22,22 +38,13 @@
 </head>
 
 <body class="bg-[var(--abu-muda)] text-[var(--abu-gelap)]">
-  <?php
-  $descriptions = [
-    'Mahasiswa' => 'Akses pengajuan judul, bimbingan, seminar, dan revisi dalam satu panel.',
-    'Dosen Pembimbing' => 'Kelola daftar mahasiswa bimbingan, catatan, serta jadwal seminar.',
-    'Kaprodi' => 'Pantau pengajuan judul dan progres bimbingan program studi.',
-    'Sekjur' => 'Validasi pengajuan dan atur penjadwalan seminar jurusan.',
-  ];
-  $modules = $contentMap ?? [];
-  ?>
   <div class="min-h-screen flex">
     <aside class="w-72 bg-[var(--biru-tua)] text-white flex flex-col shadow-xl">
       <div class="px-6 py-5 flex items-center gap-3 border-b border-white/10">
         <div class="h-12 w-12 rounded-xl bg-white/10 flex items-center justify-center font-bold">SP</div>
         <div>
           <p class="text-xs text-white/80">Sistem Skripsi</p>
-          <p class="text-lg font-semibold">Panel <?= esc($role ?? 'Pengguna'); ?></p>
+          <p class="text-lg font-semibold">Panel <?= esc($roleDisplay); ?></p>
         </div>
       </div>
       <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-2">
@@ -63,12 +70,12 @@
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div>
             <p class="text-sm text-slate-500">Dashboard</p>
-            <h1 class="text-2xl font-semibold text-[var(--abu-gelap)]">Halo, <?= esc($role ?? 'Pengguna'); ?></h1>
+            <h1 class="text-2xl font-semibold text-[var(--abu-gelap)]">Halo, <?= esc($roleDisplay); ?></h1>
           </div>
           <div class="flex items-center gap-3">
             <div class="text-right">
               <p class="text-sm font-semibold">Nama Pengguna</p>
-              <p class="text-xs text-slate-500">Role: <?= esc($role ?? 'Pengguna'); ?></p>
+              <p class="text-xs text-slate-500">Role: <?= esc($roleDisplay); ?></p>
             </div>
             <div
               class="h-10 w-10 rounded-full bg-[var(--biru-medium)] text-white flex items-center justify-center font-bold">

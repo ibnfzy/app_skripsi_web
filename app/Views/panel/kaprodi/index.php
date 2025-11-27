@@ -4,10 +4,10 @@
 <div class="space-y-8">
   <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
     <div>
-      <p class="text-sm text-slate-500">Dashboard Kaprodi</p>
+      <p class="text-sm text-slate-500">Dashboard Ketua Program Studi</p>
       <h2 class="text-3xl font-semibold text-[var(--abu-gelap)]">Pantau capaian program studi</h2>
     </div>
-    <span class="px-4 py-2 rounded-full bg-[var(--biru-medium)] text-white text-sm font-semibold">Kaprodi</span>
+    <span class="px-4 py-2 rounded-full bg-[var(--biru-medium)] text-white text-sm font-semibold">Ketua Program Studi</span>
   </div>
 
   <div class="grid md:grid-cols-4 gap-4">

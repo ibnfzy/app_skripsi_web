@@ -58,7 +58,7 @@
                         </div>
                         <div class="p-4 rounded-xl bg-white/10 border border-white/20 backdrop-blur">
                             <p class="text-3xl font-bold">Terintegrasi</p>
-                            <p class="text-sm text-white/80">Kaprodi &amp; Dosen</p>
+                            <p class="text-sm text-white/80">Ketua Program Studi &amp; Dosen</p>
                         </div>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                     ['judul' => 'Pembukaan Pengajuan Judul Semester Ganjil', 'tgl' => '02 Juni 2024', 'isi' => 'Mahasiswa dapat mengajukan judul maksimal 2 topik melalui panel mahasiswa.'],
                     ['judul' => 'Workshop Penulisan Bab Metodologi', 'tgl' => '28 Mei 2024', 'isi' => 'Wajib untuk mahasiswa angkatan 2020-2021, daftar pada menu revisi.'],
                     ['judul' => 'Maintenance Sistem', 'tgl' => '20 Mei 2024', 'isi' => 'Sistem tidak dapat diakses pukul 22.00-23.00 WIB untuk peningkatan server.'],
-                    ['judul' => 'Pengumpulan Draft Akhir', 'tgl' => '15 Mei 2024', 'isi' => 'Unggah draft akhir sebelum sidang untuk proses validasi sekjur.'],
+                    ['judul' => 'Pengumpulan Draft Akhir', 'tgl' => '15 Mei 2024', 'isi' => 'Unggah draft akhir sebelum sidang untuk proses validasi Sekretaris Jurusan.'],
                 ]; ?>
                 <?php foreach ($pengumuman as $item): ?>
                     <article class="p-5 rounded-xl bg-white shadow-sm border border-slate-100 hover:-translate-y-1 hover:shadow-lg transition">
@@ -173,7 +173,7 @@
                         <?php $langkah = [
                             'Login ke sistem',
                             'Ajukan judul skripsi',
-                            'Proses persetujuan kaprodi & dekan',
+                            'Proses persetujuan Ketua Program Studi & Dekan',
                             'Bimbingan dengan dosen',
                             'Daftar seminar & upload revisi'
                         ]; ?>
