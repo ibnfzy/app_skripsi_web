@@ -11,7 +11,8 @@ $routes->get('logout', 'Auth::logout');
 
 $routes->group('Sekjur', ['namespace' => 'App\\Controllers\\Sekjur'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
-    $routes->get('users', 'UsersController::index');
+    $routes->get('users', 'BasePanel::users');
+    $routes->get('users/data', 'UsersController::index');
     $routes->get('users/(:num)', 'UsersController::show/$1');
     $routes->post('users', 'UsersController::create');
     $routes->put('users/(:num)', 'UsersController::update/$1');

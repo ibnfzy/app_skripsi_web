@@ -13,6 +13,7 @@
     'Sekjur' => 'Validasi pengajuan dan atur penjadwalan seminar jurusan.',
   ];
   $modules = $contentMap ?? [];
+  $activeMenu = $activeMenu ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -49,11 +50,17 @@
       </div>
       <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-2">
         <?php foreach (($menu ?? []) as $index => $item): ?>
-          <a href="#"
-            class="block px-4 py-3 rounded-xl <?php echo $index === 0 ? 'bg-white text-[var(--biru-tua)] font-semibold shadow' : 'text-white/90 hover:bg-white/10'; ?> transition">
+          <?php
+            $label = is_array($item) ? ($item['label'] ?? '') : $item;
+            $url = is_array($item) ? ($item['url'] ?? '#') : '#';
+            $badge = is_array($item) ? ($item['badge'] ?? 'Menu') : 'Menu';
+            $isActive = $activeMenu ? $label === $activeMenu : $index === 0;
+          ?>
+          <a href="<?= esc($url); ?>"
+            class="block px-4 py-3 rounded-xl <?= $isActive ? 'bg-white text-[var(--biru-tua)] font-semibold shadow' : 'text-white/90 hover:bg-white/10'; ?> transition">
             <div class="flex items-center justify-between">
-              <span><?= esc($item); ?></span>
-              <span class="text-xs px-2 py-1 rounded-full bg-white/10">Menu</span>
+              <span><?= esc($label); ?></span>
+              <span class="text-xs px-2 py-1 rounded-full bg-white/10"><?= esc($badge); ?></span>
             </div>
           </a>
         <?php endforeach; ?>
@@ -69,7 +76,7 @@
       <header class="bg-white shadow-sm">
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div>
-            <p class="text-sm text-slate-500">Dashboard</p>
+            <p class="text-sm text-slate-500"><?= esc($activeMenu ?? 'Dashboard'); ?></p>
             <h1 class="text-2xl font-semibold text-[var(--abu-gelap)]">Halo, <?= esc($roleDisplay); ?></h1>
           </div>
           <div class="flex items-center gap-3">
