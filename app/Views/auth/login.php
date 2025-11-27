@@ -69,8 +69,8 @@
                     <label for="role" class="text-sm font-medium">Role</label>
                     <select id="role" name="role" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--biru-medium)]">
                         <option value="">Pilih role</option>
-                        <option value="Sekjur" <?= set_select('role', 'Sekjur'); ?>>Sekjur</option>
-                        <option value="Kaprodi" <?= set_select('role', 'Kaprodi'); ?>>Kaprodi</option>
+                        <option value="Sekjur" <?= set_select('role', 'Sekjur'); ?>>Sekretaris Jurusan</option>
+                        <option value="Kaprodi" <?= set_select('role', 'Kaprodi'); ?>>Ketua Program Studi</option>
                         <option value="Dosen Pembimbing" <?= set_select('role', 'Dosen Pembimbing'); ?>>Dosen Pembimbing</option>
                         <option value="Mahasiswa" <?= set_select('role', 'Mahasiswa'); ?>>Mahasiswa</option>
                     </select>
@@ -85,7 +85,7 @@
                 </div>
                 <button type="submit" class="w-full py-3 rounded-xl bg-[var(--biru-medium)] text-white font-semibold shadow hover:bg-[var(--biru-tua)] transition">Masuk</button>
             </form>
-            <p class="text-xs text-slate-500 text-center">Akses panel tersedia untuk Sekjur, Kaprodi, Dosen Pembimbing, dan Mahasiswa.</p>
+            <p class="text-xs text-slate-500 text-center">Akses panel tersedia untuk Sekretaris Jurusan, Ketua Program Studi, Dosen Pembimbing, dan Mahasiswa.</p>
         </div>
     </div>
 </body>

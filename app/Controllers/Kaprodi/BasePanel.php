@@ -29,7 +29,7 @@ class BasePanel extends BaseController
                 [
                     'title' => 'Jumlah Pengajuan Disetujui',
                     'highlight' => '12 disetujui',
-                    'description' => 'Total pengajuan yang sudah divalidasi kaprodi.',
+                    'description' => 'Total pengajuan yang sudah divalidasi Ketua Program Studi.',
                 ],
                 [
                     'title' => 'Monitoring Progres Skripsi',
