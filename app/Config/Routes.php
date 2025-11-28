@@ -36,6 +36,8 @@ $routes->group('DosenPembimbing', ['namespace' => 'App\\Controllers\\DosenPembim
 
 $routes->group('Mahasiswa', ['namespace' => 'App\\Controllers\\Mahasiswa'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
+    $routes->get('pengajuan-judul', 'PengajuanJudul::index');
+    $routes->match(['get', 'post'], 'pengajuan-judul/tambah', 'PengajuanJudul::create');
     $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
     $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
 });
