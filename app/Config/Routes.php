@@ -11,6 +11,8 @@ $routes->get('logout', 'Auth::logout');
 
 $routes->group('Sekjur', ['namespace' => 'App\\Controllers\\Sekjur'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
+    $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
+    $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
     $routes->get('users', 'BasePanel::users');
     $routes->get('users/data', 'UsersController::index');
     $routes->get('users/(:num)', 'UsersController::show/$1');
@@ -22,12 +24,18 @@ $routes->group('Sekjur', ['namespace' => 'App\\Controllers\\Sekjur'], function (
 
 $routes->group('Kaprodi', ['namespace' => 'App\\Controllers\\Kaprodi'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
+    $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
+    $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
 });
 
 $routes->group('DosenPembimbing', ['namespace' => 'App\\Controllers\\DosenPembimbing'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
+    $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
+    $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
 });
 
 $routes->group('Mahasiswa', ['namespace' => 'App\\Controllers\\Mahasiswa'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
+    $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
+    $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
 });

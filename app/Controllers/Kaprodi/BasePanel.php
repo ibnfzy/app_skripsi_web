@@ -6,15 +6,18 @@ use App\Controllers\BaseController;
 
 class BasePanel extends BaseController
 {
+    private array $menuItems = [
+        ['label' => 'Dashboard', 'url' => '/Kaprodi'],
+        ['label' => 'Persetujuan Judul', 'url' => '#'],
+        ['label' => 'Monitoring Bimbingan', 'url' => '#'],
+        ['label' => 'Pengaturan Akun', 'url' => '/Kaprodi/pengaturan-akun'],
+    ];
+
     public function index(): string
     {
         $data = [
             'role' => 'Kaprodi',
-            'menu' => [
-                'Dashboard',
-                'Persetujuan Judul',
-                'Monitoring Bimbingan',
-            ],
+            'menu' => $this->menuItems,
             'contentMap' => [
                 'Dashboard' => 'Data ringkas capaian program studi',
                 'Persetujuan Judul' => 'Daftar pengajuan judul untuk disetujui',
@@ -71,5 +74,18 @@ class BasePanel extends BaseController
         ];
 
         return view('panel/kaprodi/index', $data);
+    }
+
+    public function accountSettings(): string
+    {
+        $data = [
+            'role' => 'Kaprodi',
+            'menu' => $this->menuItems,
+            'activeMenu' => 'Pengaturan Akun',
+            'user' => session()->get('user'),
+            'formAction' => '/Kaprodi/pengaturan-akun',
+        ];
+
+        return view('panel/account_settings', $data);
     }
 }
