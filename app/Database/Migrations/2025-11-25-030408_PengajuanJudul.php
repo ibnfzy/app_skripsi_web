@@ -12,10 +12,11 @@ class PengajuanJudul extends Migration
             'id' => ['type' => 'INT', 'auto_increment' => true],
             'mahasiswa_id' => ['type' => 'INT'],
             'judul' => ['type' => 'VARCHAR', 'constraint' => 255],
-            'deskripsi' => ['type' => 'TEXT', 'null' => true],
             'status' => ['type' => 'ENUM("diajukan","disetujui_kaprodi","disetujui_dekan","ditolak")', 'default' => 'diajukan'],
             'jurnal_json' => ['type' => 'JSON'],
             'latar_belakang' => ['type' => 'TEXT'],
+            'review_kaprodi' => ['type' => 'TEXT', 'null' => true],
+            'review_dekan' => ['type' => 'TEXT', 'null' => true],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
