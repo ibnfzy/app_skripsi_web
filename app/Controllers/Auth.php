@@ -44,6 +44,7 @@ class Auth extends BaseController
             ]);
 
             $redirectMap = [
+                'Dekan'             => '/Dekan',
                 'Sekjur'            => '/Sekjur',
                 'Kaprodi'           => '/Kaprodi',
                 'Dosen Pembimbing'  => '/DosenPembimbing',

@@ -4,6 +4,7 @@
     'Dosen Pembimbing' => 'Dosen Pembimbing',
     'Kaprodi' => 'Ketua Program Studi',
     'Sekjur' => 'Sekretaris Jurusan',
+    'Dekan' => 'Dekan',
   ];
   $roleDisplay = $roleLabels[$role ?? ''] ?? ($role ?? 'Pengguna');
   $descriptions = [
@@ -11,6 +12,7 @@
     'Dosen Pembimbing' => 'Kelola daftar mahasiswa bimbingan, catatan, serta jadwal seminar.',
     'Kaprodi' => 'Pantau pengajuan judul dan progres bimbingan program studi.',
     'Sekjur' => 'Validasi pengajuan dan atur penjadwalan seminar jurusan.',
+    'Dekan' => 'Monitor capaian fakultas dan validasi pengajuan strategis.',
   ];
   $modules = $contentMap ?? [];
   $activeMenu = $activeMenu ?? null;
