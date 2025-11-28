@@ -14,6 +14,8 @@ class PengajuanJudul extends Migration
             'judul' => ['type' => 'VARCHAR', 'constraint' => 255],
             'deskripsi' => ['type' => 'TEXT', 'null' => true],
             'status' => ['type' => 'ENUM("diajukan","disetujui_kaprodi","disetujui_dekan","ditolak")', 'default' => 'diajukan'],
+            'jurnal_json' => ['type' => 'JSON'],
+            'latar_belakang' => ['type' => 'TEXT'],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
