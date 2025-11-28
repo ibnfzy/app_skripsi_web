@@ -6,16 +6,19 @@ use App\Controllers\BaseController;
 
 class BasePanel extends BaseController
 {
+    private array $menuItems = [
+        ['label' => 'Dashboard', 'url' => '/DosenPembimbing'],
+        ['label' => 'Daftar Mahasiswa Bimbingan', 'url' => '#'],
+        ['label' => 'Catatan Bimbingan', 'url' => '#'],
+        ['label' => 'Jadwal Seminar', 'url' => '#'],
+        ['label' => 'Pengaturan Akun', 'url' => '/DosenPembimbing/pengaturan-akun'],
+    ];
+
     public function index(): string
     {
         $data = [
             'role' => 'Dosen Pembimbing',
-            'menu' => [
-                'Dashboard',
-                'Daftar Mahasiswa Bimbingan',
-                'Catatan Bimbingan',
-                'Jadwal Seminar',
-            ],
+            'menu' => $this->menuItems,
             'contentMap' => [
                 'Dashboard' => 'Ringkasan aktivitas bimbingan',
                 'Daftar Mahasiswa Bimbingan' => 'List mahasiswa yang dibimbing',
@@ -69,5 +72,18 @@ class BasePanel extends BaseController
         ];
 
         return view('panel/dosen_pembimbing/index', $data);
+    }
+
+    public function accountSettings(): string
+    {
+        $data = [
+            'role' => 'Dosen Pembimbing',
+            'menu' => $this->menuItems,
+            'activeMenu' => 'Pengaturan Akun',
+            'user' => session()->get('user'),
+            'formAction' => '/DosenPembimbing/pengaturan-akun',
+        ];
+
+        return view('panel/account_settings', $data);
     }
 }

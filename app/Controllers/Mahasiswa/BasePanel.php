@@ -6,17 +6,20 @@ use App\Controllers\BaseController;
 
 class BasePanel extends BaseController
 {
+    private array $menuItems = [
+        ['label' => 'Dashboard', 'url' => '/Mahasiswa'],
+        ['label' => 'Pengajuan Judul', 'url' => '#'],
+        ['label' => 'Bimbingan', 'url' => '#'],
+        ['label' => 'Seminar', 'url' => '#'],
+        ['label' => 'Revisi', 'url' => '#'],
+        ['label' => 'Pengaturan Akun', 'url' => '/Mahasiswa/pengaturan-akun'],
+    ];
+
     public function index(): string
     {
         $data = [
             'role' => 'Mahasiswa',
-            'menu' => [
-                'Dashboard',
-                'Pengajuan Judul',
-                'Bimbingan',
-                'Seminar',
-                'Revisi',
-            ],
+            'menu' => $this->menuItems,
             'contentMap' => [
                 'Dashboard' => 'Widget status progres skripsi',
                 'Pengajuan Judul' => 'Form pengajuan & riwayat pengajuan',
@@ -76,5 +79,18 @@ class BasePanel extends BaseController
         ];
 
         return view('panel/mahasiswa/index', $data);
+    }
+
+    public function accountSettings(): string
+    {
+        $data = [
+            'role' => 'Mahasiswa',
+            'menu' => $this->menuItems,
+            'activeMenu' => 'Pengaturan Akun',
+            'user' => session()->get('user'),
+            'formAction' => '/Mahasiswa/pengaturan-akun',
+        ];
+
+        return view('panel/account_settings', $data);
     }
 }

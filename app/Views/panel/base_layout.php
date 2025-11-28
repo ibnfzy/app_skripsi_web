@@ -14,6 +14,7 @@
   ];
   $modules = $contentMap ?? [];
   $activeMenu = $activeMenu ?? null;
+  $currentUser = session()->get('user') ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -81,7 +82,8 @@
           </div>
           <div class="flex items-center gap-3">
             <div class="text-right">
-              <p class="text-sm font-semibold">Nama Pengguna</p>
+              <p class="text-sm font-semibold"><?= esc($currentUser['nama'] ?? 'Nama Pengguna'); ?></p>
+              <p class="text-xs text-slate-500">Username: <?= esc($currentUser['username'] ?? '-'); ?></p>
               <p class="text-xs text-slate-500">Role: <?= esc($roleDisplay); ?></p>
             </div>
             <div

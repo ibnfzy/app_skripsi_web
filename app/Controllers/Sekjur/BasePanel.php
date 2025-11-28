@@ -12,6 +12,7 @@ class BasePanel extends BaseController
         ['label' => 'Pendaftaran Seminar', 'url' => '#'],
         ['label' => 'Penjadwalan Seminar', 'url' => '#'],
         ['label' => 'Kelola User', 'url' => '/Sekjur/users'],
+        ['label' => 'Pengaturan Akun', 'url' => '/Sekjur/pengaturan-akun'],
     ];
 
     public function index(): string
@@ -89,5 +90,18 @@ class BasePanel extends BaseController
         ];
 
         return view('panel/sekjur/users', $data);
+    }
+
+    public function accountSettings(): string
+    {
+        $data = [
+            'role' => 'Sekjur',
+            'menu' => $this->menuItems,
+            'activeMenu' => 'Pengaturan Akun',
+            'user' => session()->get('user'),
+            'formAction' => '/Sekjur/pengaturan-akun',
+        ];
+
+        return view('panel/account_settings', $data);
     }
 }
