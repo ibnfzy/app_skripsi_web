@@ -8,7 +8,7 @@ class BasePanel extends BaseController
 {
     private array $menuItems = [
         ['label' => 'Dashboard', 'url' => '/Mahasiswa'],
-        ['label' => 'Pengajuan Judul', 'url' => '#'],
+        ['label' => 'Pengajuan Judul', 'url' => '/Mahasiswa/pengajuan-judul'],
         ['label' => 'Bimbingan', 'url' => '#'],
         ['label' => 'Seminar', 'url' => '#'],
         ['label' => 'Revisi', 'url' => '#'],
