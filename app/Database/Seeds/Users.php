@@ -39,6 +39,13 @@ class Users extends Seeder
                 'nama'       => 'Sekretaris Jurusan',
                 'role'       => 'sekjur',
                 'created_at' => $now,
+            ],
+            [
+                'username'   => 'dekan1',
+                'password'   => $password,
+                'nama'       => 'Dekan Fakultas',
+                'role'       => 'dekan',
+                'created_at' => $now,
             ]
         ];
 

@@ -28,6 +28,12 @@ $routes->group('Kaprodi', ['namespace' => 'App\\Controllers\\Kaprodi'], function
     $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
 });
 
+$routes->group('Dekan', ['namespace' => 'App\\Controllers\\Dekan'], function ($routes) {
+    $routes->get('/', 'BasePanel::index');
+    $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
+    $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
+});
+
 $routes->group('DosenPembimbing', ['namespace' => 'App\\Controllers\\DosenPembimbing'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
     $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
