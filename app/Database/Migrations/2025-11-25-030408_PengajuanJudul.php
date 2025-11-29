@@ -18,6 +18,7 @@ class PengajuanJudul extends Migration
             'review_kaprodi' => ['type' => 'TEXT', 'null' => true],
             'review_dekan' => ['type' => 'TEXT', 'null' => true],
             'created_at' => ['type' => 'DATETIME', 'null' => true],
+            'judul_pilihan' => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0]
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('pengajuan_judul');
