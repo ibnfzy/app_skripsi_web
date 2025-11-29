@@ -24,12 +24,18 @@ $routes->group('Sekjur', ['namespace' => 'App\\Controllers\\Sekjur'], function (
 
 $routes->group('Kaprodi', ['namespace' => 'App\\Controllers\\Kaprodi'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
+    $routes->get('pengajuan-judul', 'PengajuanJudul::index');
+    $routes->get('pengajuan-judul/(:num)', 'PengajuanJudul::show/$1');
+    $routes->post('pengajuan-judul/(:num)/review', 'PengajuanJudul::review/$1');
     $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
     $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
 });
 
 $routes->group('Dekan', ['namespace' => 'App\\Controllers\\Dekan'], function ($routes) {
     $routes->get('/', 'BasePanel::index');
+    $routes->get('pengajuan-judul', 'PengajuanJudul::index');
+    $routes->get('pengajuan-judul/(:num)', 'PengajuanJudul::show/$1');
+    $routes->post('pengajuan-judul/(:num)/review', 'PengajuanJudul::review/$1');
     $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
     $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
 });
