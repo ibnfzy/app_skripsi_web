@@ -16,7 +16,13 @@ class PengajuanJudulService
             $session->set($this->sessionKey, $submissions);
         }
 
-        return $submissions;
+        $normalized = $this->normalizeSelections($submissions);
+
+        if ($normalized !== $submissions) {
+            $session->set($this->sessionKey, $normalized);
+        }
+
+        return $normalized;
     }
 
     public function find(int $id): ?array
@@ -33,6 +39,7 @@ class PengajuanJudulService
     public function add(array $submission): void
     {
         $submissions = $this->getSubmissions();
+        $submission['judul_pilihan'] = $submission['judul_pilihan'] ?? 0;
         $submissions[] = $submission;
         session()->set($this->sessionKey, $submissions);
     }
@@ -52,6 +59,82 @@ class PengajuanJudulService
         return null;
     }
 
+    public function selectApprovedTitle(int $id): bool
+    {
+        $submissions = $this->getSubmissions();
+        $hasValidSelection = false;
+
+        foreach ($submissions as $submission) {
+            if ((int) $submission['id'] === $id && strtolower($submission['status']) === 'disetujui') {
+                $hasValidSelection = true;
+                break;
+            }
+        }
+
+        if (! $hasValidSelection) {
+            return false;
+        }
+
+        foreach ($submissions as &$submission) {
+            $submission['judul_pilihan'] = (int) ((int) $submission['id'] === $id ? 1 : 0);
+        }
+
+        session()->set($this->sessionKey, $submissions);
+
+        return true;
+    }
+
+    private function normalizeSelections(array $submissions): array
+    {
+        $submissions = array_map(static function ($item) {
+            $item['judul_pilihan'] = $item['judul_pilihan'] ?? 0;
+            return $item;
+        }, $submissions);
+
+        $submissions = $this->enforceSingleChoice($submissions);
+        $submissions = $this->autoSelectWhenSingleApproved($submissions);
+
+        return $submissions;
+    }
+
+    private function enforceSingleChoice(array $submissions): array
+    {
+        $chosen = array_values(array_filter($submissions, static fn ($item): bool => (int) ($item['judul_pilihan'] ?? 0) !== 0));
+
+        if (count($chosen) <= 1) {
+            return $submissions;
+        }
+
+        usort($chosen, static function ($a, $b) {
+            return strtotime($a['created_at'] ?? '') <=> strtotime($b['created_at'] ?? '');
+        });
+
+        $keepId = (int) ($chosen[0]['id'] ?? 0);
+
+        foreach ($submissions as &$submission) {
+            $submission['judul_pilihan'] = (int) ((int) $submission['id'] === $keepId ? 1 : 0);
+        }
+
+        return $submissions;
+    }
+
+    private function autoSelectWhenSingleApproved(array $submissions): array
+    {
+        $approved = array_values(array_filter($submissions, static fn ($item): bool => strtolower($item['status']) === 'disetujui'));
+
+        if (count($approved) !== 1) {
+            return $submissions;
+        }
+
+        $approvedId = (int) ($approved[0]['id'] ?? 0);
+
+        foreach ($submissions as &$submission) {
+            $submission['judul_pilihan'] = (int) ((int) $submission['id'] === $approvedId ? 1 : 0);
+        }
+
+        return $submissions;
+    }
+
     private function defaultSubmissions(): array
     {
         return [
@@ -63,6 +146,7 @@ class PengajuanJudulService
                 'status' => 'Menunggu Review',
                 'dosen_pembimbing' => 'Dr. Sri Mulyani',
                 'created_at' => '2024-05-01 09:00:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Dataset & Metodologi.pdf', 'url' => 'https://example.com/jurnal1.pdf'],
                 ],
@@ -76,6 +160,7 @@ class PengajuanJudulService
                 'status' => 'Disetujui',
                 'dosen_pembimbing' => 'Prof. Budi Santoso',
                 'created_at' => '2024-04-12 14:30:00',
+                'judul_pilihan' => 1,
                 'file_jurnal' => [
                     ['label' => 'Referensi Rekomendasi.pdf', 'url' => 'https://example.com/jurnal2.pdf'],
                 ],
@@ -89,6 +174,7 @@ class PengajuanJudulService
                 'status' => 'Perlu Revisi',
                 'dosen_pembimbing' => 'Dr. Rina Dewi',
                 'created_at' => '2024-03-25 10:15:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Face Recognition Study.pdf', 'url' => 'https://example.com/jurnal3.pdf'],
                 ],
@@ -102,6 +188,7 @@ class PengajuanJudulService
                 'status' => 'Ditolak',
                 'dosen_pembimbing' => 'Ir. Anwar Putra',
                 'created_at' => '2024-03-17 16:45:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Flutter Productivity.pdf', 'url' => 'https://example.com/jurnal4.pdf'],
                 ],
@@ -115,6 +202,7 @@ class PengajuanJudulService
                 'status' => 'Menunggu Review',
                 'dosen_pembimbing' => 'Dr. Siti Aminah',
                 'created_at' => '2024-03-10 11:20:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Genetic Algorithm Case Study.pdf', 'url' => 'https://example.com/jurnal5.pdf'],
                 ],
@@ -128,6 +216,7 @@ class PengajuanJudulService
                 'status' => 'Disetujui',
                 'dosen_pembimbing' => 'Ir. Bagus Prabowo',
                 'created_at' => '2024-03-02 08:10:00',
+                'judul_pilihan' => 1,
                 'file_jurnal' => [
                     ['label' => 'Web Finance System.pdf', 'url' => 'https://example.com/jurnal6.pdf'],
                 ],
@@ -141,6 +230,7 @@ class PengajuanJudulService
                 'status' => 'Perlu Revisi',
                 'dosen_pembimbing' => 'Prof. Yuniar Hadi',
                 'created_at' => '2024-02-20 15:05:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Plant Disease Detection.pdf', 'url' => 'https://example.com/jurnal7.pdf'],
                 ],
@@ -154,6 +244,7 @@ class PengajuanJudulService
                 'status' => 'Menunggu Review',
                 'dosen_pembimbing' => 'Dr. Widodo Hartono',
                 'created_at' => '2024-02-11 13:30:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Academic Chatbot.pdf', 'url' => 'https://example.com/jurnal8.pdf'],
                 ],
@@ -167,6 +258,7 @@ class PengajuanJudulService
                 'status' => 'Disetujui',
                 'dosen_pembimbing' => 'Ir. Suryo Wibowo',
                 'created_at' => '2024-02-05 09:50:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Commodity Forecast.pdf', 'url' => 'https://example.com/jurnal9.pdf'],
                 ],
@@ -180,6 +272,7 @@ class PengajuanJudulService
                 'status' => 'Ditolak',
                 'dosen_pembimbing' => 'Dr. Eko Saputra',
                 'created_at' => '2024-01-22 10:40:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Web Security Testing.pdf', 'url' => 'https://example.com/jurnal10.pdf'],
                 ],
@@ -193,6 +286,7 @@ class PengajuanJudulService
                 'status' => 'Menunggu Review',
                 'dosen_pembimbing' => 'Dr. Dedi Gunawan',
                 'created_at' => '2024-01-15 08:55:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'Gamification Study.pdf', 'url' => 'https://example.com/jurnal11.pdf'],
                 ],
@@ -206,6 +300,7 @@ class PengajuanJudulService
                 'status' => 'Perlu Revisi',
                 'dosen_pembimbing' => 'Ir. Ratna Sari',
                 'created_at' => '2024-01-07 12:15:00',
+                'judul_pilihan' => 0,
                 'file_jurnal' => [
                     ['label' => 'IoT Air Quality.pdf', 'url' => 'https://example.com/jurnal12.pdf'],
                 ],

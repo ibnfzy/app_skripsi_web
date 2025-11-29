@@ -16,6 +16,63 @@
   <?php if (! empty($flash)): ?>
     <div class="p-4 rounded-xl bg-green-50 border border-green-200 text-green-800 text-sm"><?= esc($flash); ?></div>
   <?php endif; ?>
+  <?php if (! empty($errorFlash)): ?>
+    <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm"><?= esc($errorFlash); ?></div>
+  <?php endif; ?>
+  <?php if ($allRejected): ?>
+    <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+      Semua pengajuan judul Anda ditolak. Silakan ajukan ulang judul baru sesuai catatan review dekan dan kaprodi.
+    </div>
+  <?php endif; ?>
+
+  <?php if ($needsSelection): ?>
+    <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 space-y-4">
+      <div>
+        <p class="text-xs text-slate-500">Pilihan Judul Disetujui</p>
+        <h3 class="text-xl font-semibold text-[var(--abu-gelap)]">Pilih salah satu judul yang disetujui</h3>
+        <p class="text-sm text-slate-600 mt-1">Beberapa judul telah disetujui. Konfirmasi pilihan akhir untuk diproses sebagai judul skripsi.</p>
+      </div>
+      <form method="post" action="/Mahasiswa/pengajuan-judul/pilih" class="space-y-4">
+        <?= csrf_field(); ?>
+        <div class="grid md:grid-cols-2 gap-4">
+          <?php foreach ($approvedSubmissions as $approved): ?>
+            <label class="relative block border rounded-2xl p-4 cursor-pointer hover:border-[var(--biru-medium)] transition">
+              <input type="radio" name="judul_id" value="<?= esc($approved['id']); ?>" class="peer sr-only"
+                <?= (int) ($approved['judul_pilihan'] ?? 0) !== 0 ? 'checked' : ''; ?> />
+              <div class="absolute right-4 top-4 w-5 h-5 rounded-full border peer-checked:border-[var(--biru-medium)] peer-checked:ring-4 peer-checked:ring-[var(--biru-medium)]/20"></div>
+              <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-semibold text-[var(--abu-gelap)] leading-snug flex-1">#<?= esc($approved['id']); ?> - <?= esc($approved['judul']); ?></h4>
+                  <span class="px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold">Disetujui</span>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed line-clamp-3"><?= esc($approved['deskripsi']); ?></p>
+                <div class="flex flex-wrap gap-3 text-xs text-slate-600">
+                  <span class="inline-flex items-center gap-1"><span class="font-semibold text-[var(--abu-gelap)]">Pembimbing:</span> <?= esc($approved['dosen_pembimbing']); ?></span>
+                  <span class="inline-flex items-center gap-1"><span class="font-semibold text-[var(--abu-gelap)]">Dibuat:</span> <?= date('d F Y', strtotime($approved['created_at'] ?? 'now')); ?></span>
+                </div>
+                <?php if (! empty($approved['review_notes'])): ?>
+                  <p class="text-xs text-slate-500">Catatan: <?= esc($approved['review_notes']); ?></p>
+                <?php endif; ?>
+              </div>
+            </label>
+          <?php endforeach; ?>
+        </div>
+        <button type="submit" class="px-4 py-3 rounded-xl bg-[var(--biru-medium)] hover:bg-[var(--biru-tua)] text-white text-sm font-semibold transition">Konfirmasi Pilihan</button>
+      </form>
+    </div>
+  <?php elseif ($selectedTitleId !== null): ?>
+    <?php foreach ($approvedSubmissions as $approved): ?>
+      <?php if ((int) $approved['id'] === (int) $selectedTitleId): ?>
+        <div class="p-4 rounded-xl bg-sky-50 border border-sky-200 text-sky-800 text-sm flex items-center gap-3">
+          <span class="px-3 py-1 rounded-full bg-sky-200 text-sky-800 text-xs font-semibold">Judul Terpilih</span>
+          <div>
+            <p class="font-semibold text-[var(--abu-gelap)]">#<?= esc($approved['id']); ?> - <?= esc($approved['judul']); ?></p>
+            <p class="text-xs text-slate-600">Judul disetujui telah ditandai sebagai pilihan akhir.</p>
+          </div>
+        </div>
+      <?php endif; ?>
+    <?php endforeach; ?>
+  <?php endif; ?>
 
   <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 space-y-6">
     <div class="flex flex-col md:flex-row md:items-end gap-4">
@@ -84,6 +141,9 @@
               <td class="px-4 py-3 align-top text-slate-700"><?= esc($submission['dosen_pembimbing']); ?></td>
               <td class="px-4 py-3 align-top">
                 <span class="px-3 py-1 rounded-full text-xs font-semibold <?= $statusColor; ?>"><?= esc($submission['status']); ?></span>
+                <?php if ((int) ($submission['judul_pilihan'] ?? 0) !== 0): ?>
+                  <p class="text-[11px] text-[var(--biru-tua)] font-semibold mt-1">Judul terpilih</p>
+                <?php endif; ?>
               </td>
               <td class="px-4 py-3 align-top text-slate-700"><?= esc($submission['tanggal']); ?></td>
               <td class="px-4 py-3 align-top">
