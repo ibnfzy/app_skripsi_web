@@ -27,6 +27,24 @@ class PengajuanJudul extends BaseController
     {
         $submissions = $this->service->getSubmissions();
 
+        $approvedSubmissions = array_values(array_filter(
+            $submissions,
+            static fn ($item): bool => strtolower($item['status']) === 'disetujui'
+        ));
+
+        $selectedTitleId = null;
+
+        foreach ($approvedSubmissions as $approved) {
+            if ((int) ($approved['judul_pilihan'] ?? 0) !== 0) {
+                $selectedTitleId = (int) $approved['id'];
+                break;
+            }
+        }
+
+        $needsSelection = count($approvedSubmissions) > 1;
+        $allRejected = ! empty($submissions)
+            && count(array_filter($submissions, static fn ($item): bool => strtolower($item['status']) !== 'ditolak')) === 0;
+
         $search = trim($this->request->getGet('search') ?? '');
         $statusFilter = $this->request->getGet('status') ?? '';
         $page = max(1, (int) ($this->request->getGet('page') ?? 1));
@@ -67,8 +85,12 @@ class PengajuanJudul extends BaseController
             'menu' => $this->menuItems,
             'activeMenu' => 'Pengajuan Judul',
             'submissions' => $formattedSubmissions,
+            'approvedSubmissions' => $approvedSubmissions,
             'search' => $search,
             'statusFilter' => $statusFilter,
+            'selectedTitleId' => $selectedTitleId,
+            'needsSelection' => $needsSelection,
+            'allRejected' => $allRejected,
             'pagination' => [
                 'current' => $page,
                 'totalPages' => $totalPages,
@@ -77,6 +99,7 @@ class PengajuanJudul extends BaseController
             ],
             'statusOptions' => ['Menunggu Review', 'Disetujui', 'Perlu Revisi', 'Ditolak'],
             'flash' => session()->getFlashdata('success') ?? null,
+            'errorFlash' => session()->getFlashdata('error') ?? null,
         ];
 
         return view('panel/mahasiswa/pengajuan_judul/index', $data);
@@ -134,6 +157,7 @@ class PengajuanJudul extends BaseController
                         'url' => base_url('uploads/jurnal/' . $fileName),
                     ],
                 ],
+                'judul_pilihan' => 0,
                 'review_notes' => null,
             ]);
             session()->setFlashdata('success', 'Pengajuan judul berhasil dikirim.');
@@ -142,5 +166,26 @@ class PengajuanJudul extends BaseController
         }
 
         return view('panel/mahasiswa/pengajuan_judul/form', $data);
+    }
+
+    public function pilih()
+    {
+        $selectedId = (int) ($this->request->getPost('judul_id') ?? 0);
+
+        if ($selectedId === 0) {
+            session()->setFlashdata('error', 'Pilih salah satu judul yang sudah disetujui.');
+            return redirect()->back()->withInput();
+        }
+
+        $isSelected = $this->service->selectApprovedTitle($selectedId);
+
+        session()->setFlashdata(
+            $isSelected ? 'success' : 'error',
+            $isSelected
+                ? 'Judul skripsi berhasil dipilih dan disimpan.'
+                : 'Pilihan judul tidak valid atau belum disetujui.'
+        );
+
+        return redirect()->to('/Mahasiswa/pengajuan-judul');
     }
 }

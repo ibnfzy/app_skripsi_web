@@ -50,6 +50,7 @@ $routes->group('Mahasiswa', ['namespace' => 'App\\Controllers\\Mahasiswa'], func
     $routes->get('/', 'BasePanel::index');
     $routes->get('pengajuan-judul', 'PengajuanJudul::index');
     $routes->match(['get', 'post'], 'pengajuan-judul/tambah', 'PengajuanJudul::create');
+    $routes->post('pengajuan-judul/pilih', 'PengajuanJudul::pilih');
     $routes->get('pengaturan-akun', 'BasePanel::accountSettings');
     $routes->post('pengaturan-akun', '\\App\\Controllers\\AccountController::update');
 });
