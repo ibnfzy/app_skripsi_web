@@ -2,11 +2,11 @@
 
 namespace App\Controllers\Sekjur;
 
-use App\Controllers\BaseController;
+use App\Controllers\Panel\PanelController;
 
-class BasePanel extends BaseController
+class BasePanel extends PanelController
 {
-    private array $menuItems = [
+    protected array $menuItems = [
         ['label' => 'Dashboard', 'url' => '/Sekjur'],
         ['label' => 'Validasi Pengajuan', 'url' => '#'],
         ['label' => 'Pendaftaran Seminar', 'url' => '#'],
@@ -14,6 +14,21 @@ class BasePanel extends BaseController
         ['label' => 'Kelola User', 'url' => '/Sekjur/users'],
         ['label' => 'Pengaturan Akun', 'url' => '/Sekjur/pengaturan-akun'],
     ];
+
+    protected function role(): string
+    {
+        return 'Sekjur';
+    }
+
+    protected function menuItems(): array
+    {
+        return $this->menuItems;
+    }
+
+    protected function accountSettingsPath(): string
+    {
+        return '/Sekjur/pengaturan-akun';
+    }
 
     public function index(): string
     {
@@ -94,14 +109,6 @@ class BasePanel extends BaseController
 
     public function accountSettings(): string
     {
-        $data = [
-            'role' => 'Sekjur',
-            'menu' => $this->menuItems,
-            'activeMenu' => 'Pengaturan Akun',
-            'user' => session()->get('user'),
-            'formAction' => '/Sekjur/pengaturan-akun',
-        ];
-
-        return view('panel/account_settings', $data);
+        return $this->renderAccountSettings();
     }
 }

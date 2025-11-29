@@ -2,16 +2,31 @@
 
 namespace App\Controllers\Kaprodi;
 
-use App\Controllers\BaseController;
+use App\Controllers\Panel\PanelController;
 
-class BasePanel extends BaseController
+class BasePanel extends PanelController
 {
-    private array $menuItems = [
+    protected array $menuItems = [
         ['label' => 'Dashboard', 'url' => '/Kaprodi'],
         ['label' => 'Persetujuan Judul', 'url' => '/Kaprodi/pengajuan-judul'],
         ['label' => 'Monitoring Bimbingan', 'url' => '#'],
         ['label' => 'Pengaturan Akun', 'url' => '/Kaprodi/pengaturan-akun'],
     ];
+
+    protected function role(): string
+    {
+        return 'Kaprodi';
+    }
+
+    protected function menuItems(): array
+    {
+        return $this->menuItems;
+    }
+
+    protected function accountSettingsPath(): string
+    {
+        return '/Kaprodi/pengaturan-akun';
+    }
 
     public function index(): string
     {
@@ -78,14 +93,6 @@ class BasePanel extends BaseController
 
     public function accountSettings(): string
     {
-        $data = [
-            'role' => 'Kaprodi',
-            'menu' => $this->menuItems,
-            'activeMenu' => 'Pengaturan Akun',
-            'user' => session()->get('user'),
-            'formAction' => '/Kaprodi/pengaturan-akun',
-        ];
-
-        return view('panel/account_settings', $data);
+        return $this->renderAccountSettings();
     }
 }

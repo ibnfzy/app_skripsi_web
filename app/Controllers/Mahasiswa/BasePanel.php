@@ -2,11 +2,11 @@
 
 namespace App\Controllers\Mahasiswa;
 
-use App\Controllers\BaseController;
+use App\Controllers\Panel\PanelController;
 
-class BasePanel extends BaseController
+class BasePanel extends PanelController
 {
-    private array $menuItems = [
+    protected array $menuItems = [
         ['label' => 'Dashboard', 'url' => '/Mahasiswa'],
         ['label' => 'Pengajuan Judul', 'url' => '/Mahasiswa/pengajuan-judul'],
         ['label' => 'Bimbingan', 'url' => '#'],
@@ -14,6 +14,21 @@ class BasePanel extends BaseController
         ['label' => 'Revisi', 'url' => '#'],
         ['label' => 'Pengaturan Akun', 'url' => '/Mahasiswa/pengaturan-akun'],
     ];
+
+    protected function role(): string
+    {
+        return 'Mahasiswa';
+    }
+
+    protected function menuItems(): array
+    {
+        return $this->menuItems;
+    }
+
+    protected function accountSettingsPath(): string
+    {
+        return '/Mahasiswa/pengaturan-akun';
+    }
 
     public function index(): string
     {
@@ -83,14 +98,6 @@ class BasePanel extends BaseController
 
     public function accountSettings(): string
     {
-        $data = [
-            'role' => 'Mahasiswa',
-            'menu' => $this->menuItems,
-            'activeMenu' => 'Pengaturan Akun',
-            'user' => session()->get('user'),
-            'formAction' => '/Mahasiswa/pengaturan-akun',
-        ];
-
-        return view('panel/account_settings', $data);
+        return $this->renderAccountSettings();
     }
 }

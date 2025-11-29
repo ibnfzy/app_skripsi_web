@@ -2,17 +2,32 @@
 
 namespace App\Controllers\DosenPembimbing;
 
-use App\Controllers\BaseController;
+use App\Controllers\Panel\PanelController;
 
-class BasePanel extends BaseController
+class BasePanel extends PanelController
 {
-    private array $menuItems = [
+    protected array $menuItems = [
         ['label' => 'Dashboard', 'url' => '/DosenPembimbing'],
         ['label' => 'Daftar Mahasiswa Bimbingan', 'url' => '#'],
         ['label' => 'Catatan Bimbingan', 'url' => '#'],
         ['label' => 'Jadwal Seminar', 'url' => '#'],
         ['label' => 'Pengaturan Akun', 'url' => '/DosenPembimbing/pengaturan-akun'],
     ];
+
+    protected function role(): string
+    {
+        return 'Dosen Pembimbing';
+    }
+
+    protected function menuItems(): array
+    {
+        return $this->menuItems;
+    }
+
+    protected function accountSettingsPath(): string
+    {
+        return '/DosenPembimbing/pengaturan-akun';
+    }
 
     public function index(): string
     {
@@ -76,14 +91,6 @@ class BasePanel extends BaseController
 
     public function accountSettings(): string
     {
-        $data = [
-            'role' => 'Dosen Pembimbing',
-            'menu' => $this->menuItems,
-            'activeMenu' => 'Pengaturan Akun',
-            'user' => session()->get('user'),
-            'formAction' => '/DosenPembimbing/pengaturan-akun',
-        ];
-
-        return view('panel/account_settings', $data);
+        return $this->renderAccountSettings();
     }
 }
