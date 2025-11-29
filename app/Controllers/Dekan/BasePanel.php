@@ -2,16 +2,31 @@
 
 namespace App\Controllers\Dekan;
 
-use App\Controllers\BaseController;
+use App\Controllers\Panel\PanelController;
 
-class BasePanel extends BaseController
+class BasePanel extends PanelController
 {
-    private array $menuItems = [
+    protected array $menuItems = [
         ['label' => 'Dashboard', 'url' => '/Dekan'],
         ['label' => 'Persetujuan Judul', 'url' => '/Dekan/pengajuan-judul'],
         ['label' => 'Monitoring Skripsi', 'url' => '#'],
         ['label' => 'Pengaturan Akun', 'url' => '/Dekan/pengaturan-akun'],
     ];
+
+    protected function role(): string
+    {
+        return 'Dekan';
+    }
+
+    protected function menuItems(): array
+    {
+        return $this->menuItems;
+    }
+
+    protected function accountSettingsPath(): string
+    {
+        return '/Dekan/pengaturan-akun';
+    }
 
     public function index(): string
     {
@@ -79,14 +94,6 @@ class BasePanel extends BaseController
 
     public function accountSettings(): string
     {
-        $data = [
-            'role' => 'Dekan',
-            'menu' => $this->menuItems,
-            'activeMenu' => 'Pengaturan Akun',
-            'user' => session()->get('user'),
-            'formAction' => '/Dekan/pengaturan-akun',
-        ];
-
-        return view('panel/account_settings', $data);
+        return $this->renderAccountSettings();
     }
 }
